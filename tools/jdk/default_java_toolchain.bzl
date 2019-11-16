@@ -61,7 +61,12 @@ DEFAULT_TOOLCHAIN_CONFIGURATION = {
         "@bazel_tools//tools/jdk:jdk_compiler_jar",
     ],
     "javac_supports_workers": 1,
-    "jvm_opts": JDK9_JVM_OPTS,
+    #"jvm_opts": JDK9_JVM_OPTS,
+    "jvm_opts": select({
+        "//src/conditions:freebsd": JDK8_JVM_OPTS,
+        "//src/conditions:openbsd": JDK8_JVM_OPTS,
+        "//conditions:default": JDK9_JVM_OPTS,
+    }),
     "misc": DEFAULT_JAVACOPTS,
     "singlejar": ["@bazel_tools//tools/jdk:singlejar"],
     "bootclasspath": ["@bazel_tools//tools/jdk:platformclasspath"],
